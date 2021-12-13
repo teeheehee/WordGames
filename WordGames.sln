@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearch", "WordSearch\WordSearch.csproj", "{A8639302-A6CC-4876-B6C9-724DA3B657AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearchCmd", "WordSearchCmd\WordSearchCmd.csproj", "{6E49C478-C515-43B4-9D89-8D19167C28B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8639302-A6CC-4876-B6C9-724DA3B657AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8639302-A6CC-4876-B6C9-724DA3B657AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8639302-A6CC-4876-B6C9-724DA3B657AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8639302-A6CC-4876-B6C9-724DA3B657AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E49C478-C515-43B4-9D89-8D19167C28B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E49C478-C515-43B4-9D89-8D19167C28B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E49C478-C515-43B4-9D89-8D19167C28B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E49C478-C515-43B4-9D89-8D19167C28B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8063F3EE-CD3E-4045-B25F-9D55A577D82C}
+	EndGlobalSection
+EndGlobal

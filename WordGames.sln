@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearch", "WordSearch\WordSearch.csproj", "{A8639302-A6CC-4876-B6C9-724DA3B657AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordSearch", "WordSearch\WordSearch.csproj", "{A8639302-A6CC-4876-B6C9-724DA3B657AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearchCmd", "WordSearchCmd\WordSearchCmd.csproj", "{6E49C478-C515-43B4-9D89-8D19167C28B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordSearchCmd", "WordSearchCmd\WordSearchCmd.csproj", "{6E49C478-C515-43B4-9D89-8D19167C28B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E305D09-A3AC-45E9-A2BC-48565F7B07D4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

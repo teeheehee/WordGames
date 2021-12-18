@@ -7,6 +7,7 @@ namespace WordSearch
     /// </summary>
     public class WordSearchSolver
     {
+        private const int _defaultNumberOfCompositions = 100;
         private readonly IEnumerable<string> _originalWordList;
         private readonly IEnumerable<string> _words;
         private IDictionary<string, string> _wordsConversions;
@@ -58,20 +59,56 @@ namespace WordSearch
         { }
 
         public WordSearchSolver(IEnumerable<string> words, int squareSize, IEnumerable<WordDirections> availableDirections)
-            : this(words, squareSize, 100, availableDirections)
+            : this(words, squareSize, _defaultNumberOfCompositions, availableDirections)
         { }
 
         public WordSearchSolver(IEnumerable<string> words, int squareSize)
-            : this(words, squareSize, 100, Enum.GetValues<WordDirections>().ToList())
+            : this(words, squareSize, _defaultNumberOfCompositions, Enum.GetValues<WordDirections>().ToList())
         { }
 
         public WordSearchSolver(IEnumerable<string> words, IEnumerable<WordDirections> availableDirections)
-            : this(words, Math.Max(words.Count(), words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length)), availableDirections)
+            : this(words, GetSquareSizeFromWords(words), availableDirections)
         { }
 
         public WordSearchSolver(IEnumerable<string> words)
-            : this(words, Math.Max(words.Count(), words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length)), Enum.GetValues<WordDirections>().ToList())
+            : this(words, GetSquareSizeFromWords(words), Enum.GetValues<WordDirections>().ToList())
         { }
+
+        public WordSearchSolver(IEnumerable<string> words, GameDifficulty difficulty)
+            : this(words, GetSquareSizeFromWordsAndDifficulty(words, difficulty), GetWordDirectionsFromDifficulty(difficulty))
+        { }
+
+        private static int GetSquareSizeFromWords(IEnumerable<string> words)
+        {
+            return Math.Max(words.Count(), words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length));
+        }
+
+        private static int GetSquareSizeFromWordsAndDifficulty(IEnumerable<string> words, GameDifficulty difficulty)
+        {
+            var squareSizeByWords = GetSquareSizeFromWords(words);
+            return (difficulty == GameDifficulty.VeryHard)
+                ? squareSizeByWords + Convert.ToInt32(Math.Round(squareSizeByWords * .25f))
+                : squareSizeByWords;
+        }
+
+        private static IEnumerable<WordDirections> GetWordDirectionsFromDifficulty(GameDifficulty difficulty)
+        {
+            var availableDirections = new List<WordDirections>();
+            switch (difficulty)
+            {
+                case GameDifficulty.Hard:
+                case GameDifficulty.VeryHard:
+                    availableDirections.AddRange(new[] { WordDirections.Left, WordDirections.UpLeft, WordDirections.DownLeft });
+                    goto case GameDifficulty.Medium;
+                case GameDifficulty.Medium:
+                    availableDirections.AddRange(new[] { WordDirections.Up, WordDirections.DownRight, WordDirections.UpRight });
+                    goto case GameDifficulty.Easy;
+                case GameDifficulty.Easy:
+                    availableDirections.AddRange(new[] { WordDirections.Right, WordDirections.Down });
+                    break;
+            }
+            return availableDirections;
+        }
 
         public void Solve()
         {

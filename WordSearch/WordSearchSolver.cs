@@ -66,11 +66,11 @@ namespace WordSearch
         { }
 
         public WordSearchSolver(IEnumerable<string> words, IEnumerable<WordDirections> availableDirections)
-            : this(words, words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length), availableDirections)
+            : this(words, Math.Max(words.Count(), words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length)), availableDirections)
         { }
 
         public WordSearchSolver(IEnumerable<string> words)
-            : this(words, words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length), Enum.GetValues<WordDirections>().ToList())
+            : this(words, Math.Max(words.Count(), words.Select(w => Regex.Replace(w, "\\s+", "")).Max(w => w.Length)), Enum.GetValues<WordDirections>().ToList())
         { }
 
         public void Solve()

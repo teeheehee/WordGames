@@ -45,7 +45,7 @@ loggingMessages.Add("");
 var basePath = Path.GetDirectoryName(wordsFilePath);
 var outputBaseName = Path.GetFileNameWithoutExtension(wordsFilePath);
 
-var outputFile = $@"{basePath}\{outputBaseName} - Solution - {DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
+var outputFile = $@"{basePath}\{outputBaseName} - WordSearch - {DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
 
 var words = File.ReadAllLines(wordsFilePath).ToList().Where(w => !string.IsNullOrWhiteSpace(w));
 

@@ -8,6 +8,7 @@ namespace WordSearch
     public class WordSearchSolver
     {
         private const int _defaultNumberOfCompositions = 100;
+
         private readonly IEnumerable<string> _originalWordList;
         private readonly IEnumerable<string> _words;
         private IDictionary<string, string> _wordsConversions;
@@ -35,7 +36,8 @@ namespace WordSearch
             _wordsConversions = new Dictionary<string, string>();
             foreach (var word in words)
             {
-                var convertedWord = Regex.Replace(word, "\\s+", "").ToUpper();
+                var lettersOnly = Regex.Matches(word, "[A-Z]", RegexOptions.IgnoreCase).Cast<Match>().Select(m => m.Value);
+                var convertedWord = string.Join("", lettersOnly).ToUpper();
                 _wordsConversions.Add(word, convertedWord);
             }
 

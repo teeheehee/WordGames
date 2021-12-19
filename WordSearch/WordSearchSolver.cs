@@ -38,6 +38,10 @@ namespace WordSearch
             {
                 var lettersOnly = Regex.Matches(word, "[A-Z]", RegexOptions.IgnoreCase).Cast<Match>().Select(m => m.Value);
                 var convertedWord = string.Join("", lettersOnly).ToUpper();
+                if (string.IsNullOrEmpty(convertedWord))
+                {
+                    continue;
+                }
                 _wordsConversions.Add(word, convertedWord);
             }
 

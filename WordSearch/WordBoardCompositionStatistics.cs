@@ -4,7 +4,7 @@
     {
         public bool IsProcessed { get; set; }
         public int WordCount { get; set; }
-        public int PlacedWordCount {  get; set; }
+        public int PlacedWordCount { get; set; }
         public int BoardWidth { get; set; }
         public int BoardHeight { get; set; }
         public int BoardTotalSpaces { get; set; }
@@ -15,7 +15,7 @@
         public double BestCompositionScore { get; set; }
         public double BestCompositionPercentageSolved { get; set; }
         public int NumberOfOverlappingCharacters { get; set; }
-        public IEnumerable<WordDirections> AvailableWordDirections  { get; set; }
+        public IEnumerable<WordDirections>? AvailableWordDirections { get; set; }
         public string? OtherInformation { get; set; }
 
         public override string ToString()
@@ -34,9 +34,13 @@
                 $"placed words count: {PlacedWordCount}",
                 $"placed words character count: {TotalPlacedWordLength}",
                 $"number of overlapping characters: {NumberOfOverlappingCharacters}",
-                $"spaces remaining: {BoardEmptySpaces}",
-                $"available word directions: {string.Join(", ", AvailableWordDirections.Select(d => d.ToString()))}"
+                $"spaces remaining: {BoardEmptySpaces}"
             };
+
+            if (AvailableWordDirections != null && AvailableWordDirections.Any())
+            {
+                results.Add($"available word directions: {string.Join(", ", AvailableWordDirections.Select(d => d.ToString()))}");
+            }
 
             if (!string.IsNullOrEmpty(OtherInformation))
             {

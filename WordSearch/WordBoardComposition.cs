@@ -5,19 +5,19 @@
         const int maxIterations = 1000;
         private static Random rand => new();
 
-		private readonly IEnumerable<string> _words;
+        private readonly IEnumerable<string> _words;
 
-		public double Score { get; set; }
+        public double Score { get; set; }
         public double PercentageSolved { get; set; }
 
         public WordBoard Board;
-		public IEnumerable<GameWord> GameWords;
+        public IEnumerable<GameWord> GameWords;
 
-		public WordBoardComposition(
+        public WordBoardComposition(
             IEnumerable<string> words,
             int width,
             int height,
-			IEnumerable<WordDirections> availableDirections)
+            IEnumerable<WordDirections> availableDirections)
         {
             _words = words;
 
@@ -26,48 +26,48 @@
             var gameWords = new List<GameWord>();
             foreach (var word in _words)
             {
-				var randomPosition = new WordPosition(rand.Next(0, width), rand.Next(0, height));
-				var randomDirection = availableDirections.ElementAt(rand.Next(0, availableDirections.Count()));
+                var randomPosition = new WordPosition(rand.Next(0, width), rand.Next(0, height));
+                var randomDirection = availableDirections.ElementAt(rand.Next(0, availableDirections.Count()));
 
-				gameWords.Add(new GameWord(word, randomPosition, randomDirection));
+                gameWords.Add(new GameWord(word, randomPosition, randomDirection));
             }
             GameWords = gameWords;
         }
 
-		public void Solve()
-		{
-			foreach (var word in GameWords)
-			{
-				int iteration = 0;
-				bool done = false;
+        public void Solve()
+        {
+            foreach (var word in GameWords)
+            {
+                int iteration = 0;
+                bool done = false;
 
-				while (!done)
-				{
-					double boardFitness = Board.Fitness(word);
+                while (!done)
+                {
+                    double boardFitness = Board.Fitness(word);
 
-					if (word.ErrorCount == 0)
-					{
-						done = true;
-						Score += boardFitness;
-						PercentageSolved++;
-						Board.PlaceWord(word);
-					}
-					else
-					{
-						Board.RandomlyRepositionWord(word);
-					}
+                    if (word.ErrorCount == 0)
+                    {
+                        done = true;
+                        Score += boardFitness;
+                        PercentageSolved++;
+                        Board.PlaceWord(word);
+                    }
+                    else
+                    {
+                        Board.RandomlyRepositionWord(word);
+                    }
 
-					if (iteration > maxIterations)
-					{
-						Score = 0.0;
-						done = true;
-					}
+                    if (iteration > maxIterations)
+                    {
+                        Score = 0.0;
+                        done = true;
+                    }
 
-					iteration++;
-				}
-			}
+                    iteration++;
+                }
+            }
 
             PercentageSolved /= GameWords.Count();
-		}
-	}
+        }
+    }
 }

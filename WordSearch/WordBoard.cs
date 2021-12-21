@@ -5,10 +5,10 @@
         public const char DefaultCharacter = '.';
         private static Random Rand => new();
 
-		private readonly IEnumerable<WordDirections> _availableDirections;
+        private readonly IEnumerable<WordDirections> _availableDirections;
         private char[,] _board;
 
-        public int Width {  get; set; }
+        public int Width { get; set; }
         public int Height { get; set; }
 
         public WordBoard(int width, int height, IEnumerable<WordDirections> availableDirections)

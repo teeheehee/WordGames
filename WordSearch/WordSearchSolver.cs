@@ -132,26 +132,51 @@ namespace WordSearch
             if (_bestComposition == null) return new WordBoardCompositionStatistics();
 
             var totalSpaces = _width * _height;
-            var spacesRemaining = _bestComposition.Board.SpacesRemaining();
-
-            var overlappingCharacterCount = spacesRemaining
-                + _bestComposition.GameWords.Where(w => w.IsPlaced).Sum(pw => pw.Text.Length)
-                - (totalSpaces);
+            var spacesRemaining = _bestComposition.Board.GetSpacesRemaining();
+            var totalPlacedWordLength = _bestComposition.GameWords.Where(w => w.IsPlaced).Sum(pw => pw.Text.Length);
+            var overlappingCharacterCount = totalPlacedWordLength - _bestComposition.Board.GetSpacesOccupied();
 
             return new WordBoardCompositionStatistics
             {
                 IsProcessed = true,
                 WordCount = _words.Count(),
+                PlacedWordCount = _bestComposition.GameWords.Where(w => w.IsPlaced).Count(),
                 BoardWidth = _width,
                 BoardHeight = _height,
                 LongestWordLength = _words.Max(w => w.Length),
+                TotalPlacedWordLength = totalPlacedWordLength,
                 BoardTotalSpaces = totalSpaces,
                 BoardEmptySpaces = spacesRemaining,
                 NumberOfCompositions = _numberOfCompositions,
                 BestCompositionScore = _bestComposition.Score,
                 BestCompositionPercentageSolved = _bestComposition.PercentageSolved,
-                NumberOfOverlappingCharacters = overlappingCharacterCount
+                NumberOfOverlappingCharacters = overlappingCharacterCount,
+                AvailableWordDirections = _availableDirections
             };
+        }
+
+        public IEnumerable<string> GetWordListInOrder()
+        {
+            var words = _originalWordList.ToList();
+            words.Sort((a, b) => a.CompareTo(b));
+            return words;
+        }
+
+        public IEnumerable<string> GetPlacedWordListInOrder()
+        {
+            if (_bestComposition == null) return Enumerable.Empty<string>();
+
+            var placedWords = _bestComposition.GameWords.Where(w => w.IsPlaced).Select(gw => gw.Text);
+
+            var originalWords = _wordsConversions
+                .Where(wc => placedWords.Contains(wc.Value))
+                .ToList()
+                .Select(kv => kv.Key)
+                .ToList();
+
+            originalWords.Sort((a, b) => a.CompareTo(b));
+
+            return originalWords;
         }
 
         public IEnumerable<string> GetAllWordPositions()
@@ -159,12 +184,11 @@ namespace WordSearch
             if (_bestComposition == null) return Enumerable.Empty<string>();
 
             var results = new List<string>();
-            var orderedWords = _originalWordList.ToList();
-            orderedWords.Sort((a, b) => a.CompareTo(b));
+            var orderedWords = GetPlacedWordListInOrder();
 
             foreach (var word in orderedWords)
             {
-                results.Add($"\"{word}\" {_bestComposition.GameWords.First(gw => gw.Text == _wordsConversions[word])}");
+                results.Add($"\"{word}\" {_bestComposition.GameWords.Single(gw => gw.Text == _wordsConversions[word])}");
             }
 
             return results;

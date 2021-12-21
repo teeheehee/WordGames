@@ -49,12 +49,20 @@ var outputFile = $@"{basePath}\{outputBaseName} - WordSearch - {DateTime.Now.ToS
 
 var words = File.ReadAllLines(wordsFilePath).ToList().Where(w => !string.IsNullOrWhiteSpace(w));
 
-var wordSearchSolver = new WordSearch.WordSearchSolver(words, WordSearch.GameDifficulty.VeryHard);
+var wordSearchSolver = new WordSearch.WordSearchSolver(words, difficulty);
 wordSearchSolver.Solve();
 
 loggingMessages.Add("Board statistics:");
 loggingMessages.Add("");
 loggingMessages.Add(wordSearchSolver.GetBestCompositionStatistics().ToString());
+loggingMessages.Add("");
+loggingMessages.Add("Original word list:");
+loggingMessages.Add("");
+loggingMessages.AddRange(wordSearchSolver.GetWordListInOrder());
+loggingMessages.Add("");
+loggingMessages.Add("Placed word list:");
+loggingMessages.Add("");
+loggingMessages.AddRange(wordSearchSolver.GetPlacedWordListInOrder());
 loggingMessages.Add("");
 loggingMessages.Add("Solutions:");
 loggingMessages.Add("");

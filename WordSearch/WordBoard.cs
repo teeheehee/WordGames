@@ -2,10 +2,10 @@
 {
     public class WordBoard
     {
-        public static char DefaultCharacter = '.';
-        private static Random rand => new();
+        public const char DefaultCharacter = '.';
+        private static Random Rand => new();
 
-		private IEnumerable<WordDirections> _availableDirections;
+		private readonly IEnumerable<WordDirections> _availableDirections;
         private char[,] _board;
 
         public int Width {  get; set; }
@@ -36,9 +36,9 @@
             double fitness = 0.0;
             var position = word.Position.ShallowCopy();
 
-            foreach (char ch in word.Text)
+            foreach (var ch in word.Text)
             {
-                bool isOutside = IsOutOfBounds(position);
+                var isOutside = IsOutOfBounds(position);
 
                 // bad: if the position is filled by another word
                 // or the word doesn't fit on the board
@@ -72,8 +72,9 @@
             {
                 _board[position.Row, position.Column] = character;
                 position.MoveDirection(word.Direction);
-                word.IsPlaced = true;
             }
+
+            word.IsPlaced = true;
         }
 
         /// <summary>
@@ -81,9 +82,9 @@
         /// </summary>
         public void RandomlyRepositionWord(GameWord word)
         {
-            word.Position.Column = rand.Next(0, Width);
-            word.Position.Row = rand.Next(0, Height);
-            word.Direction = _availableDirections.ElementAt(rand.Next(0, _availableDirections.Count()));
+            word.Position.Column = Rand.Next(0, Width);
+            word.Position.Row = Rand.Next(0, Height);
+            word.Direction = _availableDirections.ElementAt(Rand.Next(0, _availableDirections.Count()));
             word.ErrorCount = 0;
         }
 
@@ -95,7 +96,7 @@
         public char[,] GetRandomlyFilledBoard()
         {
             const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var board = new char[Width, Height];
+            var board = new char[Height, Width];
 
             for (int row = 0; row < Height; row++)
             {
@@ -105,7 +106,7 @@
 
                     if (character == DefaultCharacter)
                     {
-                        character = alphabet[rand.Next(0, alphabet.Length - 1)];
+                        character = alphabet[Rand.Next(0, alphabet.Length - 1)];
                     }
 
                     board[row, column] = character;
@@ -115,7 +116,14 @@
             return board;
         }
 
-        public int SpacesRemaining()
+        public int GetSpacesRemaining()
+        {
+            return (from char space in _board
+                    where space == DefaultCharacter
+                    select space).Count();
+        }
+
+        public int GetSpacesOccupied()
         {
             return (from char space in _board
                     where space != DefaultCharacter

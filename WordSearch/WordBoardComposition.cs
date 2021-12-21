@@ -6,7 +6,6 @@
         private static Random rand => new();
 
 		private readonly IEnumerable<string> _words;
-		private IEnumerable<WordDirections> _availableDirections;
 
 		public double Score { get; set; }
         public double PercentageSolved { get; set; }
@@ -21,7 +20,6 @@
 			IEnumerable<WordDirections> availableDirections)
         {
             _words = words;
-			_availableDirections = availableDirections;
 
             Board = new WordBoard(width, height, availableDirections);
 
@@ -29,7 +27,7 @@
             foreach (var word in _words)
             {
 				var randomPosition = new WordPosition(rand.Next(0, width), rand.Next(0, height));
-				var randomDirection = availableDirections.ElementAt(rand.Next(0, _availableDirections.Count()));
+				var randomDirection = availableDirections.ElementAt(rand.Next(0, availableDirections.Count()));
 
 				gameWords.Add(new GameWord(word, randomPosition, randomDirection));
             }
